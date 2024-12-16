@@ -1,2 +1,82 @@
-<h1>Schedules#new</h1>
-<p>Find me in app/views/schedules/new.html.erb</p>
+<!-- フラッシュメッセージ -->
+<% if flash[:alert] %>
+  <div id="flash-message" class="fixed top-4 right-4 z-50 bg-red-100 text-red-800 border border-red-300 rounded-lg px-4 py-2 shadow-md animate-slideIn">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div class="overflow-visible rounded-lg border border-blue-300 shadow-lg max-w-2xl mx-auto">
+  <h1 class="text-center text-blue-700 text-xl mt-7 font-bold mt-6 mb-4">スケジュール新規登録</h1>
+
+  <div class="mx-auto max-w-xl h-full">
+    <%= form_with model: @schedule, class: "space-y-5" do |f| %>
+      <div class="grid grid-cols-12 gap-5">
+
+        <!-- タイトル入力フォーム -->
+        <div class="col-span-12">
+          <% if @schedule.errors[:title].any? %>
+            <p class="text-red-500 text-sm mb-2">
+              <% @schedule.errors[:title].each do |message| %>
+              <%= message%>
+              <% end %>
+            </p>
+          <% end %>
+          <%= f.label :title, "タイトル（必須）", class: "mb-1 block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :title, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-red-400 focus:ring-2 focus:ring-red-200 focus:ring-opacity-50" %>
+        </div>
+
+        <!-- 開始日入力フォーム -->
+        <div class="col-span-6">
+          <div class="min-h-[1.5rem] text-red-500 text-sm">
+            <% if @schedule.errors[:start_date].any? %>
+              <p><%= @schedule.errors[:start_date].join(", ") %></p>
+            <% end %>
+          </div>
+          <%= f.label :start_date, "開始日（必須）", class: "mb-1 block text-sm font-medium text-gray-700" %>
+          <%= f.date_field :start_date, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-red-400 focus:ring-2 focus:ring-red-200 focus:ring-opacity-50" %>
+        </div>
+
+        <!-- 終了日入力フォーム -->
+        <div class="col-span-6">
+          <div class="min-h-[1.5rem] text-red-500 text-sm">
+            <% if @schedule.errors[:end_date].any? %>
+              <p><%= @schedule.errors[:end_date].join(", ") %></p>
+            <% end %>
+          </div>
+          <%= f.label :end_date, "終了日（必須）", class: "mb-1 block text-sm font-medium text-gray-700" %>
+          <%= f.date_field :end_date, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-red-400 focus:ring-2 focus:ring-red-200 focus:ring-opacity-50" %>
+        </div>
+
+        <!-- 終日チェックボックス -->
+        <div class="col-span-12 flex items-center space-x-2">
+          <%= f.check_box :all_day, class: "h-4 w-4 rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring-2 focus:ring-primary-200 focus:ring-opacity-50" %>
+          <%= f.label :all_day, "終日", class: "text-sm font-medium text-gray-700" %>
+        </div>
+
+        <!-- メモ入力フォーム -->
+        <div class="col-span-12">
+          <div class="min-h-[1.5rem] text-red-500 text-sm">
+            <% if @schedule.errors[:notes].any? %>
+              <p><%= @schedule.errors[:notes].join(", ") %></p>
+            <% end %>
+          </div>
+          <%= f.label :notes, "メモ", class: "mb-1 block text-sm font-medium text-gray-700" %>
+          <%= f.text_area :notes, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-300 focus:ring-2 focus:ring-primary-200 focus:ring-opacity-50", rows: 3 %>
+        </div>
+
+        <!-- ボタン関係 -->
+        <div class="col-span-12">
+          <ul>
+            <li class="text-center">
+              <%= f.submit "登録", class: "text-center px-4 py-2 mb-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer" %>
+            </li>
+            <li class="mb-5 text-center">
+              <%= link_to "スケジュール一覧に戻る", schedules_path, data: {"turbolinks" => false}, class: "px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold rounded-lg shadow-md transition duration-300" %>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>

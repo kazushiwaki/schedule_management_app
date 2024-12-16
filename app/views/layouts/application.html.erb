@@ -12,8 +12,21 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+
+    <header class="sticky top-0 bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md p-6">
+      <h1 class="text-center text-2xl font-bold tracking-wide">スケジュール管理</h1>
+    </header>
+
+
+    <main class="container mx-auto mt-28 mb-40 px-5">
       <%= yield %>
     </main>
+
+    <% unless @hide_footer %>
+      <footer class="bg-blue-700 p-4 w-6/12 m-auto text-white flex items-center justify-between w-96 rounded-lg">
+        <h1 class="text-base font-bold tracking-wide">登録数 :  <%= @schedule_count %></h1>
+        <h1 class="text-base font-bold tracking-wide text-right">今日の日付 :   <%= @today_date.to_s(:datetime_jp)  %></h1>
+      </footer>
+    <% end %>
   </body>
 </html>
