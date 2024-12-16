@@ -57,7 +57,7 @@
           <th class="px-6 py-4 font-light text-gray-900"><%= schedule.all_day ? "◯" : "" %></th>
           <th class="px-6 py-4 font-light text-gray-900"><%= schedule.updated_at.to_s(:datetime_time_and_minutes_jp) %></th>
           <td class="flex justify-end gap-4 px-6 py-4 font-medium">
-              <%= link_to "参照", schedule_path(schedule), class: "rounded-lg border border-blue-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-blue-100 focus:ring focus:ring-blue-100" %>
+              <%= link_to "詳細", schedule_path(schedule), class: "rounded-lg border border-blue-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-blue-100 focus:ring focus:ring-blue-100" %>
               <%= link_to "編集", edit_schedule_path(schedule), class: "rounded-lg border border-green-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-green-100 focus:ring focus:ring-green-100" %>
               <%= link_to "削除", "javascript:void(0);", method: :delete, class: "delete-link rounded-lg border border-red-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-red-100 focus:ring focus:ring-red-100", data: { url: schedule_path(schedule) } %>
           </td>
