@@ -1,0 +1,68 @@
+<!-- 削除確認モーダル -->
+<div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white rounded-lg shadow-lg max-w-sm w-full p-6">
+    <h2 class="text-lg font-bold text-gray-800 mb-4">削除確認</h2>
+    <p class="text-gray-600 mb-6">このスケジュールを削除してもよろしいですか？</p>
+    <div class="flex justify-center space-x-3">
+      <button id="cancel-button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">キャンセル</button>
+      <a id="confirm-delete-link" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer">削除</a>
+    </div>
+  </div>
+</div>
+
+<!-- フラッシュメッセージ -->
+<% if flash[:notice] %>
+  <div id="flash-message" class="fixed top-4 right-4 z-50 bg-green-100 text-green-800 border border-green-300 rounded-lg px-4 py-2 shadow-md animate-slideIn">
+    <%= flash[:notice] %>
+  </div>
+<% elsif flash[:alert] %>
+  <div id="flash-message" class="fixed top-4 right-4 z-50 bg-red-100 text-red-800 border border-red-300 rounded-lg px-4 py-2 shadow-md">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div class="flex items-center justify-between">
+  <h1 class="font-bold text-gray-900">スケジュール一覧</h1>
+
+  <%= link_to new_schedule_path, class: "mb-2 text-right inline-flex items-center gap-1.5 rounded-lg border bg-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-blue-700 hover:bg-blue-700 focus:ring focus:ring-green-200" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+      <path d="M9.25 13.25a.75.75 0 001.5 0V4.636l2.955 3.129a.75.75 0 001.09-1.03l-4.25-4.5a.75.75 0 00-1.09 0l-4.25 4.5a.75.75 0 101.09 1.03L9.25 4.636v8.614z" />
+      <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+    </svg>
+    新規追加
+  <% end %>
+</div>
+
+
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+  <table class="w-full border-collapse bg-white">
+    <thead class="bg-gray-50 text-center">
+      <tr>
+        <th scope="col" class="px-6 py-4 font-semibold text-gray-900">ID</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900 text-left">タイトル</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900">開始日</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900">終了日</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900">終日</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900">更新日時</th>
+        <th scope="col" class="px-6 py-4 font-semibold  text-gray-900"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100 border-t border-gray-100 text-center">
+      <% @schedules.each do |schedule| %>
+        <tr class="hover:bg-gray-50">
+          <th class="px-6 py-4 font-light text-gray-900"><%= schedule.id %></th>
+          <th class="px-6 py-4 font-light text-gray-900 text-left"><%= schedule.title %></th>
+          <th class="px-6 py-4 font-light text-gray-900"><%= schedule.start_date.to_s(:datetime_jp) %></th>
+          <th class="px-6 py-4 font-light text-gray-900"><%= schedule.end_date.to_s(:datetime_jp) %></th>
+          <th class="px-6 py-4 font-light text-gray-900"><%= schedule.all_day ? "◯" : "" %></th>
+          <th class="px-6 py-4 font-light text-gray-900"><%= schedule.updated_at.to_s(:datetime_time_and_minutes_jp) %></th>
+          <td class="flex justify-end gap-4 px-6 py-4 font-medium">
+              <%= link_to "詳細", schedule_path(schedule), class: "rounded-lg border border-blue-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-blue-100 focus:ring focus:ring-blue-100" %>
+              <%= link_to "編集", edit_schedule_path(schedule), class: "rounded-lg border border-green-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-green-100 focus:ring focus:ring-green-100" %>
+              <%= link_to "削除", "javascript:void(0);", method: :delete, class: "delete-link rounded-lg border border-red-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-red-100 focus:ring focus:ring-red-100", data: { url: schedule_path(schedule) } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
